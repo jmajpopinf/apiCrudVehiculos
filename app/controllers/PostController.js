@@ -6,7 +6,9 @@ app.controller('PostController', function($scope,$http){
   //$scope.correo = null;
   
     
-    $scope.data = [];
+  $scope.data = [];
+
+  $scope.mod = [];
  
   getResultsPage();
  
@@ -19,20 +21,6 @@ app.controller('PostController', function($scope,$http){
     });
   }
 
-  /* METODO ALTERNATIVO DELETE
-  $scope.delete = function(id){
-    console.log(id);
-    $http.delete("http://localhost:8080/angularJsCrud/api/pacientes?id=" + id)
-      .then(function(response){
-        console.log(response);
-        if(response.data){
-          $scope.msgD = "Datos eliminados";
-        }else{
-          $scope.msgD = "Error al enviar los datos";
-        }
-      })
-  }
-  */
 
   $scope.postdata = function(nombre,dni,correo){
     var data = {
@@ -47,6 +35,7 @@ app.controller('PostController', function($scope,$http){
         
         if(response.data){
           $scope.msg = "Datos enviados";
+          locationreload();
 
           $scope.Nombre = data.nombre;
           $scope.DNI = data.dni;
@@ -70,14 +59,47 @@ app.controller('PostController', function($scope,$http){
     });
   }
  
-  $scope.edit = function(id){
-    $http({
-      url: URL + '/api/pacientes?id='+id,
-      method: 'GET'
-    }).then(function(data){
-      $scope.form = data;
-    });
+  $scope.edit = function(id,nombre,dni,correo){
+    var data = {
+      id : id,
+      nombre: nombre,
+      dni: dni,
+      correo: correo
+    }
+
+    $scope.IdE = data.id;
+    $scope.NombreE = data.nombre;
+    $scope.DNIE = data.dni;
+    $scope.CorreoE = data.correo;
+
+    saveData($scope.IdeE, $scope.NombreE, $scope.DNIE, $scope.CorreoE);
   }
+
+  $scope.saveData = function(id,nombre,dni,correo){
+    var dataE = {
+      pacienteId: id,
+      nombre: nombre,
+      dni: dni,
+      correo: correo
+    }
+    $http.put("http://localhost:8080/angularJsCrud/api/pacientes", JSON.stringify(dataE))
+      .then(function(response){
+        console.log(response);
+        
+        if(response.data){
+          $scope.msgE = "Datos enviados";
+          locationreload();
+
+          
+        }else{
+          $scope.msg = "Error al enviar datos";
+        }
+      }, function(error){
+          console.log(error);
+      })
+  }
+  
+  
  
   $scope.saveEdit = function(){
     $http({
@@ -97,9 +119,30 @@ app.controller('PostController', function($scope,$http){
         url: URL + '/api/pacientes?id='+post,
         method: 'DELETE'
       }).then(function(data){
-        $scope.data.splice(index,1);
+        locationreload();
       });
     }
   }
+
+  
+  /* METODO ALTERNATIVO DELETE
+  $scope.delete = function(id){
+    console.log(id);
+    $http.delete("http://localhost:8080/angularJsCrud/api/pacientes?id=" + id)
+      .then(function(response){
+        console.log(response);
+        if(response.data){
+          $scope.msgD = "Datos eliminados";
+        }else{
+          $scope.msgD = "Error al enviar los datos";
+        }
+      })
+  }
+  */
+
+  function locationreload() {
+    // To reload the entire page from the server
+    location.reload();      
+    }
 
 });
