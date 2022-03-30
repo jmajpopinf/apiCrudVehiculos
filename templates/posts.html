@@ -1,0 +1,157 @@
+<div class="row">
+    <div class="col-lg-12 margin-tb">
+        <div class="pull-left">
+            <h1 style="color:#3276B1"><strong>SIMPLE ANGULARJS CRUD BY ME</h1>
+        </div>
+        <div class="pull-right" style="padding-top:30px">
+            <button class="btn btn-success" data-toggle="modal" data-target="#EnviarDatos">Add New</button>
+        </div>
+    </div>
+</div>
+
+
+<table class="table table-bordered pagin-table">
+    <thead>
+        <tr>
+            <th>PacienteId</th>
+            <th>DNI</th>
+            <th>Nombre</th>
+            <th>Direccion</th>
+            <th>Codigo Postal</th>
+            <th>Telefono</th>
+            <th>Genero</th>
+            <th>FechaNacimiento</th>
+            <th>Correo</th>
+            <th width="220px">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+            <tr ng-repeat="value in data">
+            <td>{{ value.PacienteId }}</td>
+            <td>{{ value.DNI }}</td>
+            <td>{{ value.Nombre }}</td>
+            <td>{{ value.Direccion }}</td>
+            <td>{{ value.CodigoPostal }}</td>
+            <td>{{ value.Telefono }}</td>
+            <td>{{ value.Genero }}</td>
+            <td>{{ value.FechaNacimiento }}</td>
+            <td>{{ value.Correo }}</td>
+            <td>
+            <button data-toggle="modal" ng-click="edit(value.id)" data-target="#edit-data" class="btn btn-primary">Edit</button>
+            <button ng-click="remove(value.PacienteId)" class="btn btn-danger">Delete</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<div>
+    Nombre: <input type="text" ng-model="nombre"/><br><br>
+    DNI: <input type="text" ng-model="dni"/><br><br>
+    Correo: <input type="text" ng-model="correo"/><br><br>
+    <input type="button" value="Send" ng-click="postdata(nombre,dni,correo)"><br><br>
+</div>
+
+<div>
+    <p>Mensaje: {{msg}}</p>
+
+    <p>Nombre : {{Nombre}} </p>
+    <p>DNI : {{DNI}} </p>
+    <p>Correo : {{Correo}} </p>
+
+</div>
+
+<div>
+  <p>Mensaje error: {{PacienteId}}</p>
+</div>
+
+<div class="modal fade" id="EnviarDatos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Guardar nuevos datos</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">Nombre:</label>
+              <input type="text" ng-model="nombre" class="form-control" id="recipient-name">
+            </div>
+
+            <div class="form-group">
+                <label for="recipient-name" class="col-form-label">DNI:</label>
+                <input type="text" ng-model="dni" class="form-control" id="recipient-name">
+            </div>
+
+            <div class="form-group">
+                <label for="recipient-name" class="col-form-label">Correo:</label>
+                <input type="text" ng-model="correo" class="form-control" id="recipient-name">
+              </div>
+            
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" ng-click="postdata(nombre,dni,correo)" class="btn btn-primary">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- Modal -->
+<div class="modal fade" id="mensaje" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Resultado</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <p>Mensaje: {{msg}}</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<!-- Create Modal -->
+<div class="modal fade" id="create-user" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form method="POST" name="editItem" role="form" ng-submit="saveAdd()">
+                <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Add Post</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Nombre:</label>
+                        <input ng-model="form.Nombre" type="text" placeholder="Nombre" name="Nombre" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">DNI:</label>
+                        <input ng-model="form.DNI" type="text" placeholder="DNI" name="DNI" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Correo:</label>
+                        <input ng-model="form.Correo" type="text" placeholder="Correo" name="Correo" class="form-control" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" ng-disabled="editItem.$invalid" class="btn btn-primary create-crud">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
