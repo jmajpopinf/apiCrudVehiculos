@@ -1,53 +1,62 @@
 var URL = "http://localhost:8080/angularJsCrud";
-app.controller('PostController', function($scope,$http){
+app.controller('PostController', function ($scope, $http) {
 
   //$scope.nombre = null;
   //$scope.dni = null;
   //$scope.correo = null;
-  
-    
-  $scope.data = [];
 
-  $scope.mod = [];
- 
+
+  $scope.data = [];
+  $scope.data2 = [];
+
+  var datos = "";
+
   getResultsPage();
- 
+
   function getResultsPage() {
     $http({
-      url: URL + '/api/pacientes',
+      url: URL + '/api/vehiculo',
       method: 'GET'
-    }).then(function(res){
+    }).then(function (res) {
       $scope.data = res.data;
     });
   }
 
 
-  $scope.postdata = function(nombre,dni,correo){
+
+  $scope.postdata = function (idUsuario, idMarca, modelo, color, costo) {
     var data = {
-      nombre: nombre,
-      dni: dni,
-      correo: correo
+      idUsuario: idUsuario,
+      idMarca: idMarca,
+      modelo: modelo,
+      color: color,
+      costo: costo
     }
 
-    $http.post("http://localhost:8080/angularJsCrud/api/pacientes", JSON.stringify(data))
-      .then(function(response){
+    $http.post("http://localhost:8080/angularJsCrud/api/vehiculo", JSON.stringify(data))
+      .then(function (response) {
         console.log(response);
-        
-        if(response.data){
-          $scope.msg = "Datos enviados";
-          locationreload();
 
-          $scope.Nombre = data.nombre;
-          $scope.DNI = data.dni;
-          $scope.Correo = data.correo;
-        }else{
+        if (response.data) {
+          $scope.msg = "Datos enviados";
+
+          getResultsPage();
+
+          //locationreload();
+          //variables extras para comprobar el resultado
+          //$scope.Marca = data.marca;
+          //$scope.Modelo = data.modelo;
+          //$scope.Color = data.color;
+          //$scope.Precio = data.precio;
+        } else {
           $scope.msg = "Error al enviar datos";
         }
-      }, function(error){
-          console.log(error);
+      }, function (error) {
+        console.log(error);
       })
   }
- 
+
+  /*
   $scope.saveAdd = function(){
     $http({
       url: URL + '/api/pacientes',
@@ -58,73 +67,88 @@ app.controller('PostController', function($scope,$http){
       $(".modal").modal("hide");
     });
   }
- 
-  $scope.edit = function(id,nombre,dni,correo){
+  */
+
+  $scope.edit = function (id_Vehiculo, id_Usuario, id_Marca, modelo, color, precio, fecha) {
+
+    /*
     var data = {
-      id : id,
-      nombre: nombre,
-      dni: dni,
-      correo: correo
+      id_vehiculo: id_Vehiculo,
+      id_usuario: id_Usuario,
+      id_marca : id_Marca,
+      modelo: modelo,
+      color: color,
+      precio: precio,
+      fecha: fecha
     }
+    */
 
-    $scope.IdE = data.id;
-    $scope.NombreE = data.nombre;
-    $scope.DNIE = data.dni;
-    $scope.CorreoE = data.correo;
+    $scope.idVehiculoE = id_Vehiculo;
+    $scope.idUsuarioE = id_Usuario;
+    $scope.idMarcaE = id_Marca; 
+    $scope.modeloE = modelo;
+    $scope.colorE = color;
+    $scope.costoE = precio;
+    $scope.fechaE = fecha;
 
-    saveData($scope.IdeE, $scope.NombreE, $scope.DNIE, $scope.CorreoE);
+    //saveData($scope.idVehiculoE, $scope.idUsuarioE, $scope.idMarcaE, $scope.modeloE, $scope.colorE, $scope.costoE, $scope.fechaE);
   }
 
-  $scope.saveData = function(id,nombre,dni,correo){
+  $scope.saveData = function (idVehiculo, idUsuario, idMarca, modelo, color, costo, fecha) {
     var dataE = {
-      pacienteId: id,
-      nombre: nombre,
-      dni: dni,
-      correo: correo
+      idVehiculo: idVehiculo,
+      idUsuario: idUsuario,
+      idMarca: idMarca,
+      modelo: modelo,
+      color: color,
+      costo: costo,
+      fechaPrecio: fecha
     }
-    $http.put("http://localhost:8080/angularJsCrud/api/pacientes", JSON.stringify(dataE))
-      .then(function(response){
-        console.log(response);
-        
-        if(response.data){
-          $scope.msgE = "Datos enviados";
-          locationreload();
 
-          
-        }else{
+    $http.put("http://localhost:8080/angularJsCrud/api/vehiculo", JSON.stringify(dataE))
+      .then(function (response) {
+        console.log(response);
+
+        if (response.data) {
+          $scope.msgE = "Datos enviados";
+          //locationreload();
+          getResultsPage();
+
+        } else {
           $scope.msg = "Error al enviar datos";
         }
-      }, function(error){
-          console.log(error);
+      }, function (error) {
+        console.log();
       })
   }
-  
-  
- 
-  $scope.saveEdit = function(){
-    $http({
-      url: URL + '/api/pacientes?id='+$scope.form.id,
-      method: 'POST',
-      data: $scope.form
-    }).then(function(data){
-      $(".modal").modal("hide");
-        $scope.data = apiModifyTable($scope.data,data.PacienteId,data);
-    });
-  }
- 
-  $scope.remove = function(post){
+
+
+  /*
+   $scope.saveEdit = function(){
+     $http({
+       url: URL + '/api/pacientes?id='+$scope.form.id,
+       method: 'POST',
+       data: $scope.form
+     }).then(function(data){
+       $(".modal").modal("hide");
+         $scope.data = apiModifyTable($scope.data,data.PacienteId,data);
+     });
+   }
+   */
+
+  $scope.remove = function (post) {
     var result = confirm("Are you sure delete this post?");
-   if (result) {
+    if (result) {
       $http({
-        url: URL + '/api/pacientes?id='+post,
+        url: URL + '/api/vehiculo?id=' + post,
         method: 'DELETE'
-      }).then(function(data){
+      }).then(function (data) {
         locationreload();
       });
     }
   }
 
-  
+
   /* METODO ALTERNATIVO DELETE
   $scope.delete = function(id){
     console.log(id);
@@ -142,7 +166,7 @@ app.controller('PostController', function($scope,$http){
 
   function locationreload() {
     // To reload the entire page from the server
-    location.reload();      
-    }
+    location.reload();
+  }
 
 });

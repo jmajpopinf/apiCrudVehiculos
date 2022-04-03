@@ -3,7 +3,7 @@
 
     $conexion = new conexion;
 
-    $query = "SELECT * FROM pacientes";
+    $query = "SELECT * FROM vehiculo";
 
     //$query = "INSERT INTO pacientes (DNI)value('1')";
 
