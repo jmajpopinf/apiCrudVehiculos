@@ -1,15 +1,12 @@
 var URL = "http://localhost:8080/angularJsCrud";
-app.controller('PostController', function ($scope, $http) {
+app.controller('PostController', function ($scope, $http, $location) {
 
-  //$scope.nombre = null;
+  //$scope.usuario = null;
   //$scope.dni = null;
   //$scope.correo = null;
 
 
   $scope.data = [];
-  $scope.data2 = [];
-
-  var datos = "";
 
   getResultsPage();
 
@@ -167,6 +164,17 @@ app.controller('PostController', function ($scope, $http) {
   function locationreload() {
     // To reload the entire page from the server
     location.reload();
+
+  }
+
+  $scope.getUsuatio = function(){
+    var usuario = localStorage.getItem('usuario');
+    return usuario;
+  }
+
+
+  $scope.removeUsuario = function(){
+    localStorage.removeItem('usuario');
   }
 
 });

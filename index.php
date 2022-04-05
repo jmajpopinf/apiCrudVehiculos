@@ -19,6 +19,7 @@
 	<!-- My App -->
 	<script src="app/routes.js"></script>
 	<script src="app/helper/myHelper.js"></script>
+	<script src="aPp/loginService.js"></script>
 
 	<!-- App Controller -->
 	<script src="app/controllers/PostController.js"></script>
