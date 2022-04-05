@@ -6,3 +6,5 @@ function apiModifyTable(originalData,id,response){
     });
     return originalData;
 }
+
+//codigo para la numeracion de las tablas

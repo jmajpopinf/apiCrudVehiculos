@@ -1,7 +1,10 @@
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-	<title>AngularJS Simple CRUD Application - W3Adda</title>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>AngularJS Application</title>
 
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -19,11 +22,12 @@
 
 	<!-- App Controller -->
 	<script src="app/controllers/PostController.js"></script>
+	<script src="app/controllers/loginController.js"></script>
+	<script src="app/controllers/registerController.js"></script>
+	
 
 </head>
-
 <body ng-app="main-App">
-
 	<div class="container">
 		<ng-view></ng-view>
 	</div>
