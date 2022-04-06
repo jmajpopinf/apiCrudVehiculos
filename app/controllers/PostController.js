@@ -9,8 +9,10 @@ app.controller('PostController', function ($scope, $http, $location) {
   $scope.data = [];
   $scope.dataMarca = [];
 
-  var userLocal = localStorage.getItem('usuario')
-	console.log(userLocal);
+  var userLocal = localStorage.getItem('usuario');
+  $scope.userIdLocal = localStorage.getItem('idUsuario');
+  console.log($scope.userIdLocal);
+	//console.log(userLocal);
    if(!userLocal) {
 		localStorage.removeItem('usuario');
 		$location.path('/login');
@@ -23,7 +25,7 @@ app.controller('PostController', function ($scope, $http, $location) {
 
   function getResultsPage() {
     $http({
-      url: URL + '/api/vehiculo',
+      url: URL + '/api/vehiculo?id='+$scope.userIdLocal,
       method: 'GET'
     }).then(function (res) {
       $scope.data = res.data.vehiculos;
@@ -34,7 +36,7 @@ app.controller('PostController', function ($scope, $http, $location) {
 
   $scope.postdata = function () {
     var data = {
-      idUsuario: this.idUsuario,
+      idUsuario: $scope.userIdLocal,
       idMarca: this.marca,
       modelo: this.modelo,
       color: this.color,
@@ -108,21 +110,14 @@ app.controller('PostController', function ($scope, $http, $location) {
     //saveData($scope.idVehiculoE, $scope.idUsuarioE, $scope.idMarcaE, $scope.modeloE, $scope.colorE, $scope.costoE, $scope.fechaE);
   }
 
-  function getMarca(){
-    $http.get('http://localhost:8080/angularJsCrud/api/vehiculo?action='+'1').then(dataMarca =>{
-      console.log(dataMarca)
-       })
-  }
-
-  $scope.saveData = function (idVehiculo, idUsuario, idMarca, modelo, color, costo, fecha) {
+  $scope.saveData = function () {
     var dataE = {
-      idVehiculo: idVehiculo,
-      idUsuario: idUsuario,
-      idMarca: idMarca,
-      modelo: modelo,
-      color: color,
-      costo: costo,
-      fechaPrecio: fecha
+      idVehiculo: this.idVehiculoE,
+      idUsuario: this.idUsuarioE,
+      idMarca: this.idMarcaE,
+      modelo: this.modeloE,
+      color: this.colorE,
+      costo: this.costoE
     }
 
     $http.put("http://localhost:8080/angularJsCrud/api/vehiculo", JSON.stringify(dataE))
@@ -189,6 +184,7 @@ app.controller('PostController', function ($scope, $http, $location) {
     var usuario = localStorage.getItem('usuario');
     return usuario;
   }
+
 
 
   $scope.removeUsuario = function(){

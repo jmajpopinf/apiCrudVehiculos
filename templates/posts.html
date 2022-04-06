@@ -1,29 +1,9 @@
-<nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="#/home">CARRITO VELOZ S.A.</a>
-    </div>
-    <ul class="nav navbar-nav">
-      <li class="active"><a href="#/home">Home</a></li>
-      <li><a href="">Informe 1</a></li>
-      <li><a href="">Informe 2</a></li>
-    </ul>
-    <form class="navbar-form navbar-left" action="/action_page.php">
-      <div class="form-group">
-        <input type="text" class="form-control" placeholder="Search" name="search">
-      </div>
-      <button type="submit" class="btn btn-default">Buscar</button>
-    </form>
-    <ul class="nav navbar-nav pull-right">
-      <li><a href="#/login" ng-click="removeUsuario()">Cerrar Sesión</a></li>
-    </ul>
-  </div>
-</nav>
+
 
 <div class="row">
     <div class="col-lg-12 margin-tb">
         <div class="pull-left">
-            <h1 style="color:#000000"><strong>{{getUsuatio()}}</h1>
+            <h1 style="color:#000000"><strong>Bienvenido: {{getUsuatio()}}</h1>
         </div>
         <div class="pull-right" style="padding-top:30px">
             <button class="btn btn-success" data-toggle="modal" data-target="#EnviarDatos">Agregar Vehiculo</button>
@@ -107,7 +87,7 @@
 
             <div class="form-group">
               <label for="recipient-name" class="col-form-label">Id Usuario:</label>
-              <input type="text" ng-model="idUsuario" class="form-control" id="recipient-name">
+              <input type="text" ng-model="idUsuario" class="form-control" id="recipient-name" placeholder="{{ userIdLocal }}" disabled>
             </div>
 
             <div class="form-group">
@@ -166,7 +146,9 @@
 
             <div class="form-group">
               <label for="recipient-name" class="col-form-label">Id Marca:</label>
-              <input type="text" ng-model="idMarcaE" class="form-control" id="recipient-name">
+              <select ng-model="idMarcaE" class="form-control" id="recipient-name">
+                <option value="{{ marcas.idMarca }}" ng-repeat="marcas in dataMarca">{{ marcas.descripcion }}</option>
+              </select>
             </div>
 
             <div class="form-group">
@@ -186,13 +168,13 @@
 
             <div class="form-group">
               <label for="recipient-name" class="col-form-label">Fecha Registro:</label>
-              <input type="text" ng-model="fechaE" class="form-control" id="recipient-name">
+              <input type="text" ng-model="fechaE" class="form-control" id="recipient-name" disabled>
           </div>
           </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="submit" ng-click="saveData(idVehiculoE, idUsuarioE, idMarcaE, modeloE, colorE, costoE, fechaE)" class="btn btn-primary">Guardar</button>
+          <button type="submit" ng-click="saveData()" class="btn btn-primary">Guardar</button>
         </div>
       </div>
     </div>

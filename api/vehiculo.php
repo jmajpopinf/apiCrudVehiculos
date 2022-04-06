@@ -25,9 +25,17 @@ if($_SERVER['REQUEST_METHOD'] == "GET"){
     if(isset($_GET['id'])){
         $idVehiculo = $_GET['id'];
         $datosVehiculo = $_vehiculo->obtenerVehiculo($idVehiculo);
-        header("Content-Type: application/json");
-        echo json_encode($datosVehiculo);
-        http_response_code(200);
+        $datosMarca = $_vehiculo->listarMarca();
+        $devoler = array('marcas'=>$datosMarca, 'vehiculos'=>$datosVehiculo);
+       //delvovemos una respuesta 
+       header('Content-Type: application/json');
+       if(isset($datosVehiculo["result"]["error_id"])){
+           $responseCode = $datosVehiculo["result"]["error_id"];
+           http_response_code($responseCode);
+       }else{
+           http_response_code(200);
+       }
+       echo json_encode($devoler);
     }else{
         $postBody = file_get_contents("php://input");
         $datosArray = $_vehiculo->listarVehiculo($postBody);

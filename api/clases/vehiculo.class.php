@@ -32,7 +32,7 @@ class vehiculo extends conexion{
     */
 
     public function obtenerVehiculo($id){
-        $query = "SELECT * FROM " . $this->table . " WHERE idVehiculo = '$id'";
+        $query = "SELECT v.*,u.nombre, m.descripcion FROM vehiculo v, marca m,usuario u WHERE v.idUsuario = u.idUsuario and v.idMarca = m.idMarca and u.idUsuario='$id' ;";
         $datos =  parent::obtenerDatos($query);
         return($datos);
 
@@ -102,7 +102,6 @@ class vehiculo extends conexion{
             if(isset($datos['modelo'])) { $this->modelo = $datos['modelo']; }
             if(isset($datos['color'])) { $this->color = $datos['color']; }
             if(isset($datos['costo'])) { $this->costo = $datos['costo']; }
-            if(isset($datos['fechaCompra'])) { $this->fechaCompra = $datos['fechaCompra']; }
 
             $resp = $this->modificarVehiculo();
             if($resp){

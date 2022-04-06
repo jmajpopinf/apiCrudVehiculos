@@ -29,6 +29,10 @@ app.config(function($routeProvider) {
 			.when('/', {
 				templateUrl: 'templates/login.html',
 				controller: 'loginController'
+			})
+			.when('/reporte', {
+				templateUrl: 'templates/reporte.html',
+				controller: 'reportController'
 			});
 });
 
