@@ -1,4 +1,4 @@
-app.controller('reportController', function ($scope, $http, $location) {
+app.controller('compradosController', function ($scope, $http, $location) {
 
     $scope.data = [];
 
@@ -10,7 +10,7 @@ app.controller('reportController', function ($scope, $http, $location) {
 		//localStorage.removeItem('usuario');
 		$location.path('/login');
    	}else{
-        $location.path('/reporteVendidos');
+        $location.path('/reporteComprados');
     }
 
     getVendidos();
@@ -22,7 +22,7 @@ app.controller('reportController', function ($scope, $http, $location) {
         url: URL + '/api/vehiculo',
         method: 'GET'
         }).then(function (res) {
-        $scope.data = res.data.vendidos;
+        $scope.data = res.data.comprados;
         console.log(res);
         });
     }

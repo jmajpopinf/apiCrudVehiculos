@@ -40,7 +40,10 @@ if($_SERVER['REQUEST_METHOD'] == "GET"){
         $postBody = file_get_contents("php://input");
         $datosArray = $_vehiculo->listarVehiculo($postBody);
         $datosMarca = $_vehiculo->listarMarca();
-        $devoler = array('marcas'=>$datosMarca, 'vehiculos'=>$datosArray);
+        $datosVendidos = $_vehiculo->listarVendidos();
+        $datosComprados = $_vehiculo->listarComprados();
+        $datosCaros = $_vehiculo->listarCaros();
+        $devoler = array('marcas'=>$datosMarca, 'vehiculos'=>$datosArray, 'vendidos'=>$datosVendidos, 'comprados'=>$datosComprados, 'caros'=>$datosCaros);
         //delvovemos una respuesta 
         header('Content-Type: application/json');
         if(isset($datosArray["result"]["error_id"])){

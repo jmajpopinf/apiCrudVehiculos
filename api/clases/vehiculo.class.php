@@ -44,6 +44,40 @@ class vehiculo extends conexion{
         return($datos);
     }
 
+    public function listarVendidos(){
+        $query = "SELECT COUNT(*) AS cantidad, SUM(v.costo) AS total, v.*,u.nombre, m.descripcion 
+        FROM vehiculo v, marca m,usuario u 
+        WHERE v.idUsuario = u.idUsuario 
+        and v.idMarca = m.idMarca
+        and v.estado = '0'
+        GROUP BY m.descripcion
+        ORDER BY cantidad DESC;";
+        $datos = parent::obtenerDatos($query);
+        return($datos);
+    }
+
+    public function listarComprados(){
+        $query = "SELECT COUNT(*) AS cantidad, SUM(v.costo) AS total, v.*,u.nombre, m.descripcion 
+        FROM vehiculo v, marca m,usuario u 
+        WHERE v.idUsuario = u.idUsuario 
+        and v.idMarca = m.idMarca
+        and v.estado = '1'
+        GROUP BY m.descripcion
+        ORDER BY cantidad DESC;";
+        $datos = parent::obtenerDatos($query);
+        return($datos);
+    }
+
+    public function listarCaros(){
+        $query = "SELECT v.*,u.nombre, m.descripcion 
+        FROM vehiculo v, marca m,usuario u 
+        WHERE v.idUsuario = u.idUsuario 
+        and v.idMarca = m.idMarca 
+        ORDER BY V.costo DESC;";
+        $datos = parent::obtenerDatos($query);
+        return($datos);
+    }
+
     public function listarMarca(){
         $query = "SELECT idMarca, descripcion from marca;";
         $datos = parent::obtenerDatos($query);
