@@ -7,28 +7,43 @@ app.controller('PostController', function ($scope, $http, $location) {
 
 
   $scope.data = [];
+  $scope.dataMarca = [];
 
+  var userLocal = localStorage.getItem('usuario')
+	console.log(userLocal);
+   if(!userLocal) {
+		localStorage.removeItem('usuario');
+		$location.path('/login');
+   	}
+
+  //getMarca();
   getResultsPage();
+
+  
 
   function getResultsPage() {
     $http({
       url: URL + '/api/vehiculo',
       method: 'GET'
     }).then(function (res) {
-      $scope.data = res.data;
+      $scope.data = res.data.vehiculos;
+      $scope.dataMarca = res.data.marcas;
+      console.log(res);
     });
   }
 
-
-
-  $scope.postdata = function (idUsuario, idMarca, modelo, color, costo) {
+  $scope.postdata = function () {
     var data = {
-      idUsuario: idUsuario,
-      idMarca: idMarca,
-      modelo: modelo,
-      color: color,
-      costo: costo
+      idUsuario: this.idUsuario,
+      idMarca: this.marca,
+      modelo: this.modelo,
+      color: this.color,
+      costo: this.costo
     }
+
+    console.log(data);
+
+    
 
     $http.post("http://localhost:8080/angularJsCrud/api/vehiculo", JSON.stringify(data))
       .then(function (response) {
@@ -51,6 +66,8 @@ app.controller('PostController', function ($scope, $http, $location) {
       }, function (error) {
         console.log(error);
       })
+      
+
   }
 
   /*
@@ -89,6 +106,12 @@ app.controller('PostController', function ($scope, $http, $location) {
     $scope.fechaE = fecha;
 
     //saveData($scope.idVehiculoE, $scope.idUsuarioE, $scope.idMarcaE, $scope.modeloE, $scope.colorE, $scope.costoE, $scope.fechaE);
+  }
+
+  function getMarca(){
+    $http.get('http://localhost:8080/angularJsCrud/api/vehiculo?action='+'1').then(dataMarca =>{
+      console.log(dataMarca)
+       })
   }
 
   $scope.saveData = function (idVehiculo, idUsuario, idMarca, modelo, color, costo, fecha) {
@@ -133,14 +156,14 @@ app.controller('PostController', function ($scope, $http, $location) {
    }
    */
 
-  $scope.remove = function (post) {
+  $scope.remove = function (id) {
     var result = confirm("Are you sure delete this post?");
     if (result) {
       $http({
-        url: URL + '/api/vehiculo?id=' + post,
+        url: URL + '/api/vehiculo?id=' + id,
         method: 'DELETE'
       }).then(function (data) {
-        locationreload();
+        getResultsPage();
       });
     }
   }
@@ -161,11 +184,6 @@ app.controller('PostController', function ($scope, $http, $location) {
   }
   */
 
-  function locationreload() {
-    // To reload the entire page from the server
-    location.reload();
-
-  }
 
   $scope.getUsuatio = function(){
     var usuario = localStorage.getItem('usuario');

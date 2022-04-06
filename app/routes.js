@@ -6,6 +6,7 @@ app.run(function($location) {
    if(userLocal) {
 		$location.path('/home');
    	}else{
+		localStorage.removeItem('usuario');
 		$location.path('/login');
 	   }
  });

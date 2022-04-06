@@ -44,6 +44,12 @@ class vehiculo extends conexion{
         return($datos);
     }
 
+    public function listarMarca(){
+        $query = "SELECT idMarca, descripcion from marca;";
+        $datos = parent::obtenerDatos($query);
+        return($datos);
+    }
+
   
     public function post($json){
         $_respuestas = new respuestas;
@@ -57,7 +63,7 @@ class vehiculo extends conexion{
             $this->modelo = $datos['modelo'];
             $this->color = $datos['color'];
             $this->costo = $datos['costo'];
-            if(isset($datos['fechaCompra'])) { $this->fechaCompra = $datos['fechaCompra']; }
+    
             $resp = $this->insertarVehiculo();
             if($resp){
                 $respuesta = $_respuestas->response;
